@@ -1,124 +1,82 @@
 def rot_encrypt(text, shift):
-    """
-    Encrypts text using ROT cipher with given shift value.
+    result = ""  #empty string to store our encrypted message
     
-    Args:
-        text: The message to encrypt (string)
-        shift: Number of positions to shift (integer)
-    
-    Returns:
-        Encrypted text (string)
-    """
-    result = ""  # Empty string to store our encrypted message
-    
-    # Process each character in the input text one by one
     for char in text:
-        
         # Check if character is an uppercase letter (A-Z)
         if char.isupper():
-            # ord() converts character to ASCII number (A=65, B=66, etc.)
-            # Subtract 65 to get position in alphabet (A=0, B=1, etc.)
+            # ord() converts character to ASCII number 
             position = ord(char) - 65
             
-            # Add shift and use modulo 26 to wrap around alphabet
-            # Example: (25 + 3) % 26 = 2, so Z with shift 3 becomes C
+            #add shift and use modulo 26 to wrap around alphabet
             new_position = (position + shift) % 26
             
-            # Convert back to ASCII and then to character
-            # Add 65 to return to uppercase ASCII range
+            #convert back to ASCII and then to character
             new_char = chr(new_position + 65)
             result += new_char
         
-        # Check if character is a lowercase letter (a-z)
+        #check if character is a lowercase letter (a-z)
         elif char.islower():
-            # Same logic as uppercase, but using 97 (ASCII value of 'a')
+            #same logic as uppercase, but using 97 (ASCII value of 'a')
             position = ord(char) - 97
             new_position = (position + shift) % 26
             new_char = chr(new_position + 97)
             result += new_char
         
-        # If character is not a letter (space, punctuation, numbers)
+        #if character is not a letter keep it unchanged
         else:
-            # Keep it unchanged - only encrypt letters
             result += char
     
-    return result
+    return result  # ← Fixed: Now properly indented with 4 spaces
 
 
 def rot_decrypt(text, shift):
-    """
-    Decrypts text encrypted with ROT cipher.
-    
-    Args:
-        text: The encrypted message (string)
-        shift: Number of positions that were shifted during encryption (integer)
-    
-    Returns:
-        Decrypted text (string)
-    """
-    # Decryption is just encryption with negative shift!
-    # If we shifted forward by 3 to encrypt, shift backward by 3 to decrypt
     return rot_encrypt(text, -shift)
 
 
 def main():
-    """
-    Main program that handles user interaction.
-    """
     print("=" * 50)
     print("ROT CIPHER ENCRYPTION/DECRYPTION PROGRAM")
     print("=" * 50)
     print()
-    
-    # Display menu options to user
     print("Choose an option:")
     print("1. Encrypt a message")
     print("2. Decrypt a message")
     print()
-    
-    # Get user's choice and validate input
+
     while True:
         choice = input("Enter your choice (1 or 2): ")
         
-        # Break loop only if valid input is provided
+        #break loop only if valid input is provided
         if choice in ['1', '2']:
             break
         else:
             print("Invalid choice. Please enter 1 or 2.")
     
     print()
-    
-    # Get the message from user
     message = input("Enter your message: ")
     
-    # Get shift value and validate it's a positive number
+    # Get shift value and validate
     while True:
         try:
-            # int() converts string input to integer
             shift = int(input("Enter shift value (1-25): "))
-            
-            # Check if shift is in valid range
             if 1 <= shift <= 25:
                 break
             else:
                 print("Please enter a number between 1 and 25.")
         
-        # Handle case where user enters non-numeric input
+        # Case where user enters non-numeric input
         except ValueError:
             print("Invalid input. Please enter a number.")
     
     print()
     print("-" * 50)
-    
-    # Perform encryption or decryption based on user choice
+
     if choice == '1':
-        # Encrypt the message
         encrypted = rot_encrypt(message, shift)
         print(f"Original message: {message}")
         print(f"Encrypted message: {encrypted}")
         print(f"Shift used: {shift}")
     else:
-        # Decrypt the message
         decrypted = rot_decrypt(message, shift)
         print(f"Encrypted message: {message}")
         print(f"Decrypted message: {decrypted}")
@@ -127,7 +85,5 @@ def main():
     print("-" * 50)
 
 
-# This ensures main() runs only when script is executed directly
-# (not when imported as a module in another program)
 if __name__ == "__main__":
     main()
