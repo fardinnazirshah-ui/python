@@ -2,7 +2,7 @@ def rot_encrypt(text, shift):
     result = ""  #empty string to store our encrypted message
     
     for char in text:
-        # Check if character is an uppercase letter (A-Z)
+        #check if character is an uppercase letter (A-Z)
         if char.isupper():
             # ord() converts character to ASCII number 
             position = ord(char) - 65
@@ -26,8 +26,7 @@ def rot_encrypt(text, shift):
         else:
             result += char
     
-    return result  # ← Fixed: Now properly indented with 4 spaces
-
+    return result 
 
 def rot_decrypt(text, shift):
     return rot_encrypt(text, -shift)
@@ -55,7 +54,7 @@ def main():
     print()
     message = input("Enter your message: ")
     
-    # Get shift value and validate
+    #get shift value and validate
     while True:
         try:
             shift = int(input("Enter shift value (1-25): "))
@@ -64,7 +63,7 @@ def main():
             else:
                 print("Please enter a number between 1 and 25.")
         
-        # Case where user enters non-numeric input
+        #user enters non-numeric input
         except ValueError:
             print("Invalid input. Please enter a number.")
     
@@ -86,4 +85,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main()   
