@@ -1,0 +1,74 @@
+"""
+Substitution Cypher
+A program that encrypts messages using a substitution cipher with a 26-character key.
+Each letter in the plaintext is replaced by the corresponding letter in the key.
+"""
+
+
+import sys
+
+
+def validate_key(key):
+    """Check if the key is exactly 26 unique alphabetic characters"""
+    if len(key) != 26:
+        return False, "Key must contain 26 characters."
+    
+    if not key.isalpha():
+        return False, "Key must contain only alphabetic characters."
+    
+    #duplicate letters (case-insensitive)
+    seen = set()
+    for char in key.upper():
+        if char in seen:
+            return False, "Key must not contain repeated characters."
+        seen.add(char)
+    
+    return True, 
+
+
+def encrypt(plaintext, key):
+    key_upper = key.upper()
+    cyphertext = []
+    
+    for char in plaintext:
+        if char.isalpha():
+            #map alphabet position to key position
+            if char.isupper():
+                index = ord(char) - ord('A')
+                cyphertext.append(key_upper[index])
+            else:
+                index = ord(char) - ord('a')
+                cyphertext.append(key_upper[index].lower())
+        else:
+            #non-alphabetic characters remain unchanged
+            cyphertext.append(char)
+    
+    return ''.join(cyphertext)
+
+
+def main():
+    #check command-line arguments
+    if len(sys.argv) != 2:
+        print("Usage: python substitution_cypher.py key")
+        sys.exit(1)
+    
+    key = sys.argv[1]
+    
+    #Validate key
+    valid, error_message = validate_key(key)
+    if not valid:
+        print(error_message)
+        sys.exit(1)
+    
+    #get plaintext from user
+    plaintext = input("plaintext: ")
+    
+                                           # Encrypt and output
+    cyphertext = encrypt(plaintext, key)
+    print(f"cyphertext: {cyphertext}")
+    
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
